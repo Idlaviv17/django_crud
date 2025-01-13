@@ -43,7 +43,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'crispy_forms',
     'crispy_tailwind',
-    'customs_app',
+    'customs_app.apps.CustomsAppConfig',
 ]
 
 MIDDLEWARE = [
