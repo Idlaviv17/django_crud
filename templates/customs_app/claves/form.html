@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+<div class="bg-white shadow-lg rounded-lg p-6 max-w-2xl mx-auto">
+    <h2 class="text-2xl font-bold mb-6">
+        {% if form.instance.pk %}
+        Editar Clave de Pedimento
+        {% else %}
+        Nueva Clave de Pedimento
+        {% endif %}
+    </h2>
+    
+    <form method="post" novalidate>
+        {% csrf_token %}
+        {{ form|crispy }}
+        
+        <div class="flex justify-end mt-6 space-x-4">
+            <a href="{% url 'clave-list' %}" 
+               class="px-4 py-2 border border-gray-300 rounded text-gray-700 hover:bg-gray-50">
+                Cancelar
+            </a>
+            <button type="submit" 
+                    class="px-4 py-2 bg-black text-white rounded hover:bg-gray-800">
+                Guardar
+            </button>
+        </div>
+    </form>
+</div>
+{% endblock %}

@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="bg-white shadow-lg rounded-lg p-6">
+    <div class="flex justify-between items-center mb-6">
+        <h2 class="text-2xl font-bold">Claves de Pedimento</h2>
+        <a href="{% url 'clave-create' %}" 
+           class="bg-black text-white px-4 py-2 rounded hover:bg-gray-800">
+            Nueva Clave
+        </a>
+    </div>
+    
+    <div class="overflow-x-auto">
+        <table class="min-w-full">
+            <thead>
+                <tr class="border-b">
+                    <th class="text-left py-2">Clave</th>
+                    <th class="text-left py-2">Descripción</th>
+                    <th class="text-left py-2">Importación</th>
+                    <th class="text-left py-2">Exportación</th>
+                    <th class="text-right py-2">Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for clave in claves %}
+                <tr class="border-b hover:bg-gray-50">
+                    <td class="py-2">{{ clave.cve_pedimento }}</td>
+                    <td class="py-2">{{ clave.descripcion }}</td>
+                    <td class="py-2">{% if clave.importacion %}Sí{% else %}No{% endif %}</td>
+                    <td class="py-2">{% if clave.exportacion %}Sí{% else %}No{% endif %}</td>
+                    <td class="py-2 text-right">
+                        <a href="{% url 'clave-update' clave.cve_pedimento %}" 
+                           class="text-gray-600 hover:text-black">Editar</a>
+                        <a href="{% url 'clave-delete' clave.cve_pedimento %}" 
+                           class="text-gray-600 hover:text-black ml-4">Eliminar</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

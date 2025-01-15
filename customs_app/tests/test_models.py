@@ -8,12 +8,10 @@ from datetime import date
 class AgenteAduanalTests(TestCase):
     def setUp(self):
         self.client = Client()
-        # Create a test user
         self.user = User.objects.create_user(
             username='testuser',
             password='testpass123'
         )
-        # Create test data
         self.agente = AgenteAduanal.objects.create(
             patente="1234",
             nombre="Test Agente",
@@ -31,7 +29,6 @@ class AgenteAduanalTests(TestCase):
 
     def test_patente_validation(self):
         """Test patent number validation"""
-        # Test invalid patent length
         with self.assertRaises(ValidationError):
             agente = AgenteAduanal(
                 patente="123",
@@ -51,7 +48,6 @@ class AgenteAduanalTests(TestCase):
 
 class PedimentoTests(TestCase):
     def setUp(self):
-        # Create necessary related objects
         self.agente = AgenteAduanal.objects.create(
             patente="1234",
             nombre="Test Agente"
@@ -67,7 +63,6 @@ class PedimentoTests(TestCase):
             importacion=True,
             exportacion=False
         )
-        # Create test pedimento
         self.pedimento = Pedimento.objects.create(
             num_pedimento="1234567890123",
             tipo_operacion=1,

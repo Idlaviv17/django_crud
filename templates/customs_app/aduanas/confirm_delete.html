@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="bg-white shadow-lg rounded-lg p-6 max-w-md mx-auto">
+    <h2 class="text-2xl font-bold mb-6">Eliminar Aduana y Sección</h2>
+    
+    <p class="mb-6">
+        ¿Está seguro que desea eliminar la aduana "{{ object.cve_aduana }}-{{ object.cve_seccion }}?
+    </p>
+    
+    <form method="post">
+        {% csrf_token %}
+        <div class="flex justify-end space-x-4">
+            <a href="{% url 'aduana-list' %}" 
+               class="px-4 py-2 border border-gray-300 rounded text-gray-700 hover:bg-gray-50">
+                Cancelar
+            </a>
+            <button type="submit" 
+                    class="px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700">
+                Eliminar
+            </button>
+        </div>
+    </form>
+</div>
+{% endblock %}

@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="bg-white shadow-lg rounded-lg p-6">
+    <div class="flex justify-between items-center mb-6">
+        <h2 class="text-2xl font-bold">Pedimentos</h2>
+        <a href="{% url 'pedimento-create' %}" 
+           class="bg-black text-white px-4 py-2 rounded hover:bg-gray-800">
+            Nuevo Pedimento
+        </a>
+    </div>
+    
+    <div class="overflow-x-auto">
+        <table class="min-w-full">
+            <thead>
+                <tr class="border-b">
+                    <th class="text-left py-2">Número</th>
+                    <th class="text-left py-2">Tipo</th>
+                    <th class="text-left py-2">Aduana</th>
+                    <th class="text-left py-2">Agente</th>
+                    <th class="text-left py-2">Clave</th>
+                    <th class="text-left py-2">Fecha Entrada</th>
+                    <th class="text-left py-2">Fecha Pago</th>
+                    <th class="text-right py-2">Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for pedimento in pedimentos %}
+                <tr class="border-b hover:bg-gray-50">
+                    <td class="py-2">{{ pedimento.num_pedimento }}</td>
+                    <td class="py-2">{{ pedimento.get_tipo_operacion_display }}</td>
+                    <td class="py-2">{{ pedimento.aduana_seccion }}</td>
+                    <td class="py-2">{{ pedimento.patente }}</td>
+                    <td class="py-2">{{ pedimento.clave_pedimento }}</td>
+                    <td class="py-2">{{ pedimento.fecha_entrada }}</td>
+                    <td class="py-2">{{ pedimento.fecha_pago|default:'-' }}</td>
+                    <td class="py-2 text-right">
+                        <a href="{% url 'pedimento-update' pedimento.num_pedimento %}" 
+                           class="text-gray-600 hover:text-black">Editar</a>
+                        <a href="{% url 'pedimento-delete' pedimento.num_pedimento %}" 
+                           class="text-gray-600 hover:text-black ml-4">Eliminar</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}
