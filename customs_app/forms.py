@@ -3,14 +3,15 @@ from django.core.exceptions import ValidationError
 from .models import AgenteAduanal, Pedimento, AduanaSeccion, ClavePedimento
 
 class AgenteAduanalForm(forms.ModelForm):
-    nombre = forms.CharField(max_length=80, required=False)
-    razon_social = forms.CharField(max_length=80, required=False)
-    rfc = forms.CharField(max_length=20, required=False)
-    curp = forms.CharField(max_length=18, required=False)
-    direccion1 = forms.CharField(max_length=60, required=False)
-    direccion2 = forms.CharField(max_length=60, required=False)
-    direccion3 = forms.CharField(max_length=60, required=False)
-    serie = forms.CharField(max_length=30, required=False)
+    patente = forms.CharField(label='Número de Patente')
+    nombre = forms.CharField(label='Nombre', max_length=80, required=False)
+    razon_social = forms.CharField(label='Razón Social', max_length=80, required=False)
+    rfc = forms.CharField(label='RFC', max_length=20, required=False)
+    curp = forms.CharField(label='CURP', max_length=18, required=False)
+    direccion1 = forms.CharField(label='Dirección 1', max_length=60, required=False)
+    direccion2 = forms.CharField(label='Dirección 2', max_length=60, required=False)
+    direccion3 = forms.CharField(label='Dirección 3', max_length=60, required=False)
+    serie = forms.CharField(label='Serie', max_length=30, required=False)
 
     class Meta:
         model = AgenteAduanal
@@ -23,7 +24,9 @@ class AgenteAduanalForm(forms.ModelForm):
         return patente
 
 class AduanaSeccionForm(forms.ModelForm):
-    descripcion = forms.CharField(max_length=60, required=False)
+    cve_aduana = forms.CharField(label='Clave de Aduana')
+    cve_seccion = forms.CharField(label='Clave de Sección')
+    descripcion = forms.CharField(label='Descripción', max_length=60, required=False)
     
     class Meta:
         model = AduanaSeccion
@@ -42,7 +45,10 @@ class AduanaSeccionForm(forms.ModelForm):
         return cleaned_data
 
 class ClavePedimentoForm(forms.ModelForm):
-    descripcion = forms.CharField(max_length=120, required=False)
+    cve_pedimento = forms.CharField(label='Clave de Pedimento')
+    descripcion = forms.CharField(label='Descripción', max_length=120, required=False)
+    importacion = forms.BooleanField(label='Importación', required=False)
+    exportacion = forms.BooleanField(label='Exportación', required=False)
     
     class Meta:
         model = ClavePedimento
@@ -55,17 +61,17 @@ class ClavePedimentoForm(forms.ModelForm):
         return cve
 
 class PedimentoForm(forms.ModelForm):
-    fecha_pago = forms.DateField(
-        widget=forms.DateInput(attrs={'type': 'date'}),
-        required=False
-    )
+    num_pedimento = forms.CharField(label='Número de Pedimento')
+    tipo_operacion = forms.ChoiceField(label='Tipo de Operación', choices=Pedimento.TIPO_OPERACION_CHOICES)
+    aduana_seccion = forms.ModelChoiceField(label='Aduana y Sección', queryset=AduanaSeccion.objects.all())
+    patente = forms.ModelChoiceField(label='Patente', queryset=AgenteAduanal.objects.all())
+    clave_pedimento = forms.ModelChoiceField(label='Clave de Pedimento', queryset=ClavePedimento.objects.all())
+    fecha_entrada = forms.DateField(label='Fecha de Entrada', widget=forms.DateInput(attrs={'type': 'date'}))
+    fecha_pago = forms.DateField(label='Fecha de Pago', widget=forms.DateInput(attrs={'type': 'date'}), required=False)
     
     class Meta:
         model = Pedimento
         fields = '__all__'
-        widgets = {
-            'fecha_entrada': forms.DateInput(attrs={'type': 'date'}),
-        }
 
     def clean_num_pedimento(self):
         num = self.cleaned_data.get('num_pedimento')
