@@ -5,32 +5,203 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sistema Aduanal</title>
     <script src="https://cdn.tailwindcss.com"></script>
-</head>
-<body class="bg-white">
-    <nav class="bg-black text-white p-4">
-        <div class="container mx-auto">
-            <h1 class="text-2xl font-bold">Sistema Aduanal</h1>
-            {% if user.is_authenticated %}
-            <div class="flex justify-end">
-                <a href="{% url 'logout' %}" class="text-white hover:text-gray-300">Cerrar Sesión</a>
-            </div>
-            {% endif %}
-        </div>
-    </nav>
-    
-    <main class="container mx-auto mt-6 px-4">
-        {% if messages %}
-        <div class="messages mb-4">
-            {% for message in messages %}
-            <div class="bg-gray-100 border-l-4 border-gray-500 text-gray-700 p-4 mb-2" role="alert">
-                {{ message }}
-            </div>
-            {% endfor %}
-        </div>
-        {% endif %}
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        .glass-effect {
+            background: rgba(255, 255, 255, 0.8);
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(0, 0, 0, 0.1);
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        }
         
-        {% block content %}
-        {% endblock %}
-    </main>
+        .glass-card {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(0, 0, 0, 0.1);
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+
+        .cursor-highlight {
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle at center, 
+                rgba(0, 0, 0, 0.03) 0%,
+                rgba(0, 0, 0, 0) 70%);
+            border-radius: 50%;
+            position: fixed;
+            pointer-events: none;
+            transform: translate(-50%, -50%);
+            z-index: 1;
+            transition: opacity 0.3s ease;
+        }
+
+        .nav-link {
+            @apply block py-3 px-4 rounded-xl transition-all duration-300 ease-out relative overflow-hidden hover:shadow-lg;
+        }
+
+        .nav-link::before {
+            content: '';
+            @apply absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent translate-x-[-100%] transition-transform duration-500;
+        }
+
+        .nav-link:hover::before {
+            @apply translate-x-[100%];
+        }
+
+        .nav-link:hover {
+            @apply bg-gray-100/50;
+        }
+
+        .nav-link.active {
+            @apply bg-gray-100/70 shadow-md;
+        }
+
+        .nav-link.active::before {
+            @apply bg-gradient-to-r from-transparent via-white/20 to-transparent;
+        }
+
+        .nav-icon {
+            @apply transition-colors duration-300;
+        }
+
+        .nav-link:hover .nav-icon {
+            @apply text-gray-900;
+        }
+
+        .nav-link.active .nav-icon {
+            @apply text-gray-900;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 bg-[radial-gradient(#00000011_1px,transparent_1px)] [background-size:16px_16px] min-h-screen">
+    <div id="cursor-highlight" class="cursor-highlight"></div>
+    
+    <!-- Main Container with Padding -->
+    <div class="min-h-screen p-4 relative">
+        <!-- Sidebar Navigation Container -->
+        <div class="flex gap-4 min-h-[calc(100vh-2rem)]">
+            <!-- Sidebar -->
+            <div id="sidebar" class="glass-effect text-gray-800 w-64 py-7 px-2 absolute md:relative transform -translate-x-full md:translate-x-0 transition duration-200 ease-in-out rounded-3xl shadow-xl border border-gray-200">
+                <!-- Logo Container -->
+                <div class="flex items-center space-x-2 px-4 pb-4 border-b border-gray-200">
+                    <span class="text-2xl font-bold">Sistema Aduanal</span>
+                </div>
+
+                <!-- Navigation Links -->
+                {% if user.is_authenticated %}
+                <nav class="space-y-3 mt-8">
+                    <a href="{% url 'agente-list' %}" class="nav-link {% if active_section == 'agente' %}active{% endif %}">
+                        <div class="flex items-center space-x-3 relative z-10">
+                            <i class="fas fa-users nav-icon text-gray-500"></i>
+                            <span>Agentes Aduanales</span>
+                        </div>
+                    </a>
+                    
+                    <a href="{% url 'aduana-list' %}" class="nav-link {% if active_section == 'aduana' %}active{% endif %}">
+                        <div class="flex items-center space-x-3 relative z-10">
+                            <i class="fas fa-building nav-icon text-gray-500"></i>
+                            <span>Aduanas</span>
+                        </div>
+                    </a>
+                    
+                    <a href="{% url 'clave-list' %}" class="nav-link {% if active_section == 'clave' %}active{% endif %}">
+                        <div class="flex items-center space-x-3 relative z-10">
+                            <i class="fas fa-key nav-icon text-gray-500"></i>
+                            <span>Claves de Pedimento</span>
+                        </div>
+                    </a>
+                    
+                    <a href="{% url 'pedimento-list' %}" class="nav-link {% if active_section == 'pedimento' %}active{% endif %}">
+                        <div class="flex items-center space-x-3 relative z-10">
+                            <i class="fas fa-file-alt nav-icon text-gray-500"></i>
+                            <span>Pedimentos</span>
+                        </div>
+                    </a>
+                </nav>
+
+                <!-- User Info & Logout -->
+                <div class="absolute bottom-0 left-0 right-0 p-4">
+                    <div class="border-t border-gray-200 pt-4">
+                        <div class="px-4 mb-4 py-3 rounded-xl glass-card">
+                            <div class="flex items-center space-x-3">
+                                <div class="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center">
+                                    <i class="fas fa-user text-sm text-gray-600"></i>
+                                </div>
+                                <span class="text-gray-700">{{ user.username }}</span>
+                            </div>
+                        </div>
+                        <a href="{% url 'logout' %}" class="block px-4 py-3 bg-red-500/10 hover:bg-red-500/20 rounded-xl transition duration-200 text-center group backdrop-blur-sm text-red-600">
+                            <div class="flex items-center justify-center space-x-2">
+                                <i class="fas fa-sign-out-alt group-hover:translate-x-1 transition-transform"></i>
+                                <span>Cerrar Sesión</span>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+                {% endif %}
+            </div>
+
+            <!-- Main Content -->
+            <div class="flex-1 glass-effect rounded-3xl p-6 border border-gray-200">
+                <!-- Top bar -->
+                <div class="glass-effect text-gray-800 p-4 md:hidden flex justify-between items-center rounded-2xl mb-6 border border-gray-200">
+                    <h1 class="text-2xl font-bold">Sistema Aduanal</h1>
+                    <button id="sidebar-toggle" class="text-gray-800 focus:outline-none hover:glass-card p-2 rounded-xl transition duration-200">
+                        <i class="fas fa-bars text-xl"></i>
+                    </button>
+                </div>
+
+                <!-- Page Content -->
+                <main class="container mx-auto">
+                    {% if messages %}
+                    <div class="messages mb-4">
+                        {% for message in messages %}
+                        <div class="glass-card text-gray-800 p-4 mb-2 rounded-xl" role="alert">
+                            {{ message }}
+                        </div>
+                        {% endfor %}
+                    </div>
+                    {% endif %}
+                    
+                    {% block content %}
+                    {% endblock %}
+                </main>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const sidebarToggle = document.getElementById('sidebar-toggle');
+        const sidebar = document.getElementById('sidebar');
+        const pageContent = document.querySelector('main');
+
+        if (sidebarToggle && sidebar) {
+            sidebarToggle.addEventListener('click', () => {
+                sidebar.classList.toggle('-translate-x-full');
+            });
+
+            pageContent.addEventListener('click', () => {
+                if (window.innerWidth < 768) {
+                    sidebar.classList.add('-translate-x-full');
+                }
+            });
+        }
+
+        const cursorHighlight = document.getElementById('cursor-highlight');
+        
+        document.addEventListener('mousemove', (e) => {
+            cursorHighlight.style.left = e.clientX + 'px';
+            cursorHighlight.style.top = e.clientY + 'px';
+        });
+
+        document.addEventListener('mouseenter', () => {
+            cursorHighlight.style.opacity = '1';
+        });
+
+        document.addEventListener('mouseleave', () => {
+            cursorHighlight.style.opacity = '0';
+        });
+    </script>
 </body>
 </html>
