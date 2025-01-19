@@ -11,11 +11,13 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 """
 
 import os
+import dj_database_url
 from pathlib import Path
 from dotenv import load_dotenv
-from urllib.parse import urlparse
 
-load_dotenv()
+load_dotenv(override=True)
+
+database_url = os.getenv('DATABASE_URL')
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -94,20 +96,11 @@ STATICFILES_DIRS = [
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
-database_url = os.getenv('DATABASE_URL', 'postgresql://postgres:kTlpTHn9BqscyHk@localhost:5432/django_crud')
-db_config = urlparse(database_url)
-
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': db_config.path[1:],
-        'USER': db_config.username,
-        'PASSWORD': db_config.password,
-        'HOST': db_config.hostname,
-        'PORT': db_config.port or '5432',
-    }
+    'default': {}
 }
 
+DATABASES["default"] = dj_database_url.parse(database_url)
 
 # Password validation
 # https://docs.djangoproject.com/en/5.0/ref/settings/#auth-password-validators
