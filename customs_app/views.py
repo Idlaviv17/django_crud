@@ -17,54 +17,54 @@ class NavContextMixin:
         return context
 
 # Agente Aduanal Views
-class AgenteAduanalListView(LoginRequiredMixin, ListView, NavContextMixin):
+class AgenteAduanalListView(LoginRequiredMixin, NavContextMixin, ListView):
     nav_section = 'agente'
     model = AgenteAduanal
     context_object_name = 'agentes'
     template_name = 'customs_app/agentes/list.html'
 
-class AgenteAduanalCreateView(LoginRequiredMixin, CreateView, NavContextMixin):
+class AgenteAduanalCreateView(LoginRequiredMixin, NavContextMixin, CreateView):
     nav_section = 'agente'
     model = AgenteAduanal
     form_class = AgenteAduanalForm
     template_name = 'customs_app/agentes/form.html'
     success_url = reverse_lazy('agente-list')
 
-class AgenteAduanalUpdateView(LoginRequiredMixin, ListView, NavContextMixin):
+class AgenteAduanalUpdateView(LoginRequiredMixin, NavContextMixin, UpdateView):
     nav_section = 'agente'
     model = AgenteAduanal
     form_class = AgenteAduanalForm
     template_name = 'customs_app/agentes/form.html'
     success_url = reverse_lazy('agente-list')
 
-class AgenteAduanalDeleteView(LoginRequiredMixin, ListView, NavContextMixin):
+class AgenteAduanalDeleteView(LoginRequiredMixin, NavContextMixin, DeleteView):
     nav_section = 'agente'
     model = AgenteAduanal
     template_name = 'customs_app/agentes/confirm_delete.html'
     success_url = reverse_lazy('agente-list')
 
 # Aduana Seccion Views
-class AduanaSeccionListView(LoginRequiredMixin, ListView, NavContextMixin):
+class AduanaSeccionListView(LoginRequiredMixin, NavContextMixin, ListView):
     nav_section = 'aduana'
     model = AduanaSeccion
     context_object_name = 'aduanas'
     template_name = 'customs_app/aduanas/list.html'
 
-class AduanaSeccionCreateView(LoginRequiredMixin, ListView, NavContextMixin):
+class AduanaSeccionCreateView(LoginRequiredMixin, NavContextMixin, CreateView):
     nav_section = 'aduana'
     model = AduanaSeccion
     form_class = AduanaSeccionForm
     template_name = 'customs_app/aduanas/form.html'
     success_url = reverse_lazy('aduana-list')
 
-class AduanaSeccionUpdateView(LoginRequiredMixin, ListView, NavContextMixin):
+class AduanaSeccionUpdateView(LoginRequiredMixin, NavContextMixin, UpdateView):
     nav_section = 'aduana'
     model = AduanaSeccion
     form_class = AduanaSeccionForm
     template_name = 'customs_app/aduanas/form.html'
     success_url = reverse_lazy('aduana-list')
 
-class AduanaSeccionDeleteView(LoginRequiredMixin, DeleteView, NavContextMixin):
+class AduanaSeccionDeleteView(LoginRequiredMixin, NavContextMixin, DeleteView):
     nav_section = 'aduana'
     model = AduanaSeccion
     template_name = 'customs_app/aduanas/confirm_delete.html'
@@ -92,27 +92,27 @@ class AduanaSeccionDeleteView(LoginRequiredMixin, DeleteView, NavContextMixin):
             return render(request, 'customs_app/aduanas/cannot_delete.html', context)
 
 # Clave Pedimento Views
-class ClavePedimentoListView(LoginRequiredMixin, ListView, NavContextMixin):
+class ClavePedimentoListView(LoginRequiredMixin, NavContextMixin, ListView):
     nav_section = 'clave'
     model = ClavePedimento
     context_object_name = 'claves'
     template_name = 'customs_app/claves/list.html'
 
-class ClavePedimentoCreateView(LoginRequiredMixin, ListView, NavContextMixin):
+class ClavePedimentoCreateView(LoginRequiredMixin, NavContextMixin, CreateView):
     nav_section = 'clave'
     model = ClavePedimento
     form_class = ClavePedimentoForm
     template_name = 'customs_app/claves/form.html'
     success_url = reverse_lazy('clave-list')
 
-class ClavePedimentoUpdateView(LoginRequiredMixin, ListView, NavContextMixin):
+class ClavePedimentoUpdateView(LoginRequiredMixin, NavContextMixin, UpdateView):
     nav_section = 'clave'
     model = ClavePedimento
     form_class = ClavePedimentoForm
     template_name = 'customs_app/claves/form.html'
     success_url = reverse_lazy('clave-list')
 
-class ClavePedimentoDeleteView(LoginRequiredMixin, ListView, NavContextMixin):
+class ClavePedimentoDeleteView(LoginRequiredMixin, NavContextMixin, DeleteView):
     nav_section = 'clave'
     model = ClavePedimento
     template_name = 'customs_app/claves/confirm_delete.html'
@@ -141,13 +141,13 @@ class ClavePedimentoDeleteView(LoginRequiredMixin, ListView, NavContextMixin):
             })
 
 # Pedimento Views
-class PedimentoListView(LoginRequiredMixin, ListView, NavContextMixin):
+class PedimentoListView(LoginRequiredMixin, NavContextMixin, ListView):
     nav_section = 'pedimento'
     model = Pedimento
     context_object_name = 'pedimentos'
     template_name = 'customs_app/pedimentos/list.html'
 
-class PedimentoCreateView(LoginRequiredMixin, ListView, NavContextMixin):
+class PedimentoCreateView(LoginRequiredMixin, NavContextMixin, CreateView):
     nav_section = 'pedimento'
     model = Pedimento
     form_class = PedimentoForm
@@ -166,14 +166,14 @@ class PedimentoCreateView(LoginRequiredMixin, ListView, NavContextMixin):
         
         return super().get(request, *args, **kwargs)
 
-class PedimentoUpdateView(LoginRequiredMixin, ListView, NavContextMixin):
+class PedimentoUpdateView(LoginRequiredMixin, NavContextMixin, UpdateView):
     nav_section = 'pedimento'
     model = Pedimento
     form_class = PedimentoForm
     template_name = 'customs_app/pedimentos/form.html'
     success_url = reverse_lazy('pedimento-list')
 
-class PedimentoDeleteView(LoginRequiredMixin, ListView, NavContextMixin):
+class PedimentoDeleteView(LoginRequiredMixin, NavContextMixin, DeleteView):
     nav_section = 'pedimento'
     model = Pedimento
     template_name = 'customs_app/pedimentos/confirm_delete.html'
