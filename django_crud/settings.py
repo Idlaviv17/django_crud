@@ -88,7 +88,7 @@ LOGOUT_REDIRECT_URL = 'login'
 # Static files
 STATIC_URL = 'static/'
 STATICFILES_DIRS = [
-    BASE_DIR / "static",
+    BASE_DIR / "customs_app/static",
 ]
 
 # Database

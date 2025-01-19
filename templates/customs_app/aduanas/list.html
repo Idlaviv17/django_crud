@@ -4,8 +4,11 @@
     <div class="flex justify-between items-center mb-6">
         <h2 class="text-2xl font-bold">Aduanas y Secciones</h2>
         <a href="{% url 'aduana-create' %}" 
-           class="bg-black text-white px-4 py-2 rounded hover:bg-gray-800">
-            Nueva Aduana
+           class="button px-6 py-3 bg-gradient-to-r from-black to-gray-700 text-white rounded-xl hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-black focus:ring-offset-2 transition-all duration-300">
+           <div class="flex items-center space-x-2">
+                <i class="fas fa-plus"></i>
+                <span>Nueva Aduana</span>
+            </div>
         </a>
     </div>
     
@@ -13,19 +16,19 @@
         <table class="min-w-full">
             <thead>
                 <tr class="border-b">
-                    <th class="text-left py-2">Aduana</th>
-                    <th class="text-left py-2">Sección</th>
-                    <th class="text-left py-2">Descripción</th>
-                    <th class="text-right py-2">Acciones</th>
+                    <th class="text-left py-2 px-3">Aduana</th>
+                    <th class="text-left py-2 px-3">Sección</th>
+                    <th class="text-left py-2 px-3">Descripción</th>
+                    <th class="text-right py-2 px-3">Acciones</th>
                 </tr>
             </thead>
             <tbody>
                 {% for aduana in aduanas %}
                 <tr class="border-b hover:bg-gray-50">
-                    <td class="py-2">{{ aduana.cve_aduana }}</td>
-                    <td class="py-2">{{ aduana.cve_seccion }}</td>
-                    <td class="py-2">{{ aduana.descripcion }}</td>
-                    <td class="py-2 text-right">
+                    <td class="py-2 px-3 border-r">{{ aduana.cve_aduana }}</td>
+                    <td class="py-2 px-3 border-r">{{ aduana.cve_seccion }}</td>
+                    <td class="py-2 px-3 border-r">{{ aduana.descripcion }}</td>
+                    <td class="py-2 px-3 text-right">
                         <a href="{% url 'aduana-update' aduana.id %}" 
                            class="text-gray-600 hover:text-black">Editar</a>
                         <a href="{% url 'aduana-delete' aduana.id %}" 
