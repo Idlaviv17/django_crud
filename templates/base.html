@@ -3,25 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sistema Aduanal</title>
+    <title>Manejador de Pedimentos</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
-        .glass-effect {
-            background: rgba(255, 255, 255, 0.8);
-            transition: all 0.3s ease;
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(0, 0, 0, 0.1);
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-        }
-        
-        .glass-card {
-            background: rgba(255, 255, 255, 0.8);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(0, 0, 0, 0.1);
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-        }
-
         .cursor-highlight {
             width: 400px;
             height: 400px;
@@ -36,94 +21,70 @@
             transition: opacity 0.3s ease;
         }
 
-        .nav-link {
-            @apply block py-3 px-4 rounded-xl transition-all duration-300 ease-out relative overflow-hidden hover:shadow-lg;
+        @keyframes pulse {
+            0%, 100% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.02);
+            }
         }
 
-        .nav-link::before {
+        .nav-link.active::after {
             content: '';
-            @apply absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent translate-x-[-100%] transition-transform duration-500;
+            position: absolute;
+            inset: 0;
+            border-radius: 12px;
+            background: radial-gradient(circle, rgba(0, 0, 0, 0.15), transparent);
+            animation: pulse 2s infinite;
         }
-
-        .nav-link:hover::before {
-            @apply translate-x-[100%];
-        }
-
-        .nav-link:hover {
-            @apply bg-gray-100/50;
-        }
-
-        .nav-link.active {
-            @apply bg-gray-100/70 shadow-md;
-        }
-
-        .nav-link.active::before {
-            @apply bg-gradient-to-r from-transparent via-white/20 to-transparent;
-        }
-
-        .nav-icon {
-            @apply transition-colors duration-300;
-        }
-
-        .nav-link:hover .nav-icon {
-            @apply text-gray-900;
-        }
-
-        .nav-link.active .nav-icon {
-            @apply text-gray-900;
-        }
-    </style>
+    </style>    
 </head>
+
 <body class="bg-gray-50 bg-[radial-gradient(#00000011_1px,transparent_1px)] [background-size:16px_16px] min-h-screen">
     <div id="cursor-highlight" class="cursor-highlight"></div>
     
-    <!-- Main Container with Padding -->
     <div class="min-h-screen p-4 relative">
-        <!-- Sidebar Navigation Container -->
         <div class="flex gap-4 min-h-[calc(100vh-2rem)]">
-            <!-- Sidebar -->
-            <div id="sidebar" class="glass-effect text-gray-800 w-64 py-7 px-2 absolute md:relative transform -translate-x-full md:translate-x-0 transition duration-200 ease-in-out rounded-3xl shadow-xl border border-gray-200">
-                <!-- Logo Container -->
+            <div id="sidebar" class="bg-white/80 backdrop-blur-lg text-gray-800 w-64 py-7 px-4 absolute md:relative transform -translate-x-full md:translate-x-0 transition duration-200 ease-in-out rounded-3xl shadow-xl border border-gray-200">
                 <div class="flex items-center space-x-2 px-4 pb-4 border-b border-gray-200">
-                    <span class="text-2xl font-bold">Sistema Aduanal</span>
+                    <span class="text-2xl font-bold text-center">Manejador de Pedimentos</span>
                 </div>
 
-                <!-- Navigation Links -->
                 {% if user.is_authenticated %}
                 <nav class="space-y-3 mt-8">
-                    <a href="{% url 'agente-list' %}" class="nav-link {% if active_section == 'agente' %}active{% endif %}">
-                        <div class="flex items-center space-x-3 relative z-10">
-                            <i class="fas fa-users nav-icon text-gray-500"></i>
+                    <a href="{% url 'agente-list' %}" class="block px-4 py-3 rounded-xl transition-all duration-300 relative overflow-hidden font-medium text-gray-700 hover:bg-gray-100 hover:scale-[1.03] hover:shadow-md group {% if active_section == 'agente' %}bg-gradient-to-r from-black to-gray-700 text-white hover:text-white shadow-lg scale-105{% endif %}">
+                        <div class="flex items-center space-x-3">
+                            <i class="fas fa-users text-lg transition-transform duration-300 group-hover:scale-120 {% if active_section == 'agente' %}text-white{% else %}text-gray-500 group-hover:text-gray-800{% endif %}"></i>
                             <span>Agentes Aduanales</span>
                         </div>
                     </a>
-                    
-                    <a href="{% url 'aduana-list' %}" class="nav-link {% if active_section == 'aduana' %}active{% endif %}">
-                        <div class="flex items-center space-x-3 relative z-10">
-                            <i class="fas fa-building nav-icon text-gray-500"></i>
+                
+                    <a href="{% url 'aduana-list' %}" class="block px-4 py-3 rounded-xl transition-all duration-300 relative overflow-hidden font-medium text-gray-700 hover:bg-gray-100 hover:scale-[1.03] hover:shadow-md group {% if active_section == 'aduana' %}bg-gradient-to-r from-black to-gray-700 text-white hover:text-white shadow-lg scale-105{% endif %}">
+                        <div class="flex items-center space-x-3">
+                            <i class="fas fa-building text-lg transition-transform duration-300 group-hover:scale-120 {% if active_section == 'aduana' %}text-white{% else %}text-gray-500 group-hover:text-gray-800{% endif %}"></i>
                             <span>Aduanas</span>
                         </div>
                     </a>
-                    
-                    <a href="{% url 'clave-list' %}" class="nav-link {% if active_section == 'clave' %}active{% endif %}">
-                        <div class="flex items-center space-x-3 relative z-10">
-                            <i class="fas fa-key nav-icon text-gray-500"></i>
+                
+                    <a href="{% url 'clave-list' %}" class="block px-4 py-3 rounded-xl transition-all duration-300 relative overflow-hidden font-medium text-gray-700 hover:bg-gray-100 hover:scale-[1.03] hover:shadow-md group {% if active_section == 'clave' %}bg-gradient-to-r from-black to-gray-700 text-white hover:text-white shadow-lg scale-105{% endif %}">
+                        <div class="flex items-center space-x-3">
+                            <i class="fas fa-key text-lg transition-transform duration-300 group-hover:scale-120 {% if active_section == 'clave' %}text-white{% else %}text-gray-500 group-hover:text-gray-800{% endif %}"></i>
                             <span>Claves de Pedimento</span>
                         </div>
                     </a>
-                    
-                    <a href="{% url 'pedimento-list' %}" class="nav-link {% if active_section == 'pedimento' %}active{% endif %}">
-                        <div class="flex items-center space-x-3 relative z-10">
-                            <i class="fas fa-file-alt nav-icon text-gray-500"></i>
+                
+                    <a href="{% url 'pedimento-list' %}" class="block px-4 py-3 rounded-xl transition-all duration-300 relative overflow-hidden font-medium text-gray-700 hover:bg-gray-100 hover:scale-[1.03] hover:shadow-md group {% if active_section == 'pedimento' %}bg-gradient-to-r from-black to-gray-700 text-white hover:text-white shadow-lg scale-105{% endif %}">
+                        <div class="flex items-center space-x-3">
+                            <i class="fas fa-file-alt text-lg transition-transform duration-300 group-hover:scale-120 {% if active_section == 'pedimento' %}text-white{% else %}text-gray-500 group-hover:text-gray-800{% endif %}"></i>
                             <span>Pedimentos</span>
                         </div>
                     </a>
-                </nav>
+                </nav>                               
 
-                <!-- User Info & Logout -->
                 <div class="absolute bottom-0 left-0 right-0 p-4">
                     <div class="border-t border-gray-200 pt-4">
-                        <div class="px-4 mb-4 py-3 rounded-xl glass-card">
+                        <div class="px-4 mb-4 py-3 rounded-xl bg-white/80 backdrop-blur-lg border border-gray-200 shadow-sm hover:shadow-lg transition-shadow duration-300">
                             <div class="flex items-center space-x-3">
                                 <div class="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center">
                                     <i class="fas fa-user text-sm text-gray-600"></i>
@@ -131,9 +92,9 @@
                                 <span class="text-gray-700">{{ user.username }}</span>
                             </div>
                         </div>
-                        <a href="{% url 'logout' %}" class="block px-4 py-3 bg-red-500/10 hover:bg-red-500/20 rounded-xl transition duration-200 text-center group backdrop-blur-sm text-red-600">
+                        <a href="{% url 'logout' %}" class="block px-4 py-3 bg-red-500/10 hover:bg-red-500/20 rounded-xl transition-all duration-300 text-center group backdrop-blur-sm text-red-600 hover:shadow-lg hover:scale-[1.02]">
                             <div class="flex items-center justify-center space-x-2">
-                                <i class="fas fa-sign-out-alt group-hover:translate-x-1 transition-transform"></i>
+                                <i class="fas fa-sign-out-alt group-hover:translate-x-1 transition-transform duration-300"></i>
                                 <span>Cerrar Sesión</span>
                             </div>
                         </a>
@@ -142,22 +103,19 @@
                 {% endif %}
             </div>
 
-            <!-- Main Content -->
-            <div class="flex-1 glass-effect rounded-3xl p-6 border border-gray-200">
-                <!-- Top bar -->
-                <div class="glass-effect text-gray-800 p-4 md:hidden flex justify-between items-center rounded-2xl mb-6 border border-gray-200">
+            <div class="flex-1 bg-white/80 backdrop-blur-lg rounded-3xl p-6 border border-gray-200">
+                <div class="bg-white/80 backdrop-blur-lg text-gray-800 p-4 md:hidden flex justify-between items-center rounded-2xl mb-6 border border-gray-200">
                     <h1 class="text-2xl font-bold">Sistema Aduanal</h1>
-                    <button id="sidebar-toggle" class="text-gray-800 focus:outline-none hover:glass-card p-2 rounded-xl transition duration-200">
+                    <button id="sidebar-toggle" class="text-gray-800 focus:outline-none hover:bg-gray-100 p-2 rounded-xl transition duration-200">
                         <i class="fas fa-bars text-xl"></i>
                     </button>
                 </div>
 
-                <!-- Page Content -->
                 <main class="container mx-auto">
                     {% if messages %}
                     <div class="messages mb-4">
                         {% for message in messages %}
-                        <div class="glass-card text-gray-800 p-4 mb-2 rounded-xl" role="alert">
+                        <div class="bg-white/80 backdrop-blur-lg text-gray-800 p-4 mb-2 rounded-xl border border-gray-200" role="alert">
                             {{ message }}
                         </div>
                         {% endfor %}
