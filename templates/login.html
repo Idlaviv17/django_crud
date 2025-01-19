@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Iniciar Sesión - Manejador de Pedimentos</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    {% load static %}
+    <link href="{% static 'css/global.css' %}" rel="stylesheet">
+</head>
+
+<body>
+    <div id="cursor-highlight" class="cursor-highlight"></div>
+
+    <div class="min-h-screen flex items-center justify-center p-4">
+        <div class="login-card bg-white/80 backdrop-blur-lg rounded-3xl p-8 w-full max-w-md border border-gray-200 shadow-xl">
+            <div class="text-center mb-8">
+                <h1 class="text-3xl font-bold text-gray-800">Manejador de Pedimentos</h1>
+                <p class="text-gray-600 mt-2">Iniciar Sesión</p>
+            </div>
+
+            <form method="post" novalidate class="space-y-6">
+                {% csrf_token %}
+                
+                <div class="space-y-4">
+                    {% for field in form %}
+                    <div class="relative">
+                        <label for="{{ field.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-1">
+                            {{ field.label }}
+                        </label>
+                        <div class="relative">
+                            <input type="{{ field.field.widget.input_type }}" 
+                                   name="{{ field.html_name }}" 
+                                   id="{{ field.id_for_label }}"
+                                   class="input-field w-full px-4 py-3 bg-white/50 backdrop-blur-sm border border-gray-200 rounded-xl focus:ring-2 focus:ring-black focus:border-transparent outline-none transition-all duration-300 {% if field.errors %}border-red-500{% endif %}"
+                                   placeholder="{{ field.label }}"
+                            >
+                            {% if field.errors %}
+                            <div class="text-red-500 text-sm mt-1">
+                                {{ field.errors|join:", " }}
+                            </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+
+                <button type="submit" 
+                        class="login-button w-full px-6 py-3 bg-gradient-to-r from-black to-gray-700 text-white rounded-xl hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-black focus:ring-offset-2 transition-all duration-300">
+                    <div class="flex items-center justify-center space-x-2">
+                        <i class="fas fa-sign-in-alt"></i>
+                        <span>Ingresar</span>
+                    </div>
+                </button>
+            </form>
+
+            {% if messages %}
+            <div class="mt-6 space-y-2">
+                {% for message in messages %}
+                <div class="bg-white/60 backdrop-blur-lg text-gray-800 p-4 rounded-xl border border-gray-200 shadow-sm" role="alert">
+                    {{ message }}
+                </div>
+                {% endfor %}
+            </div>
+            {% endif %}
+        </div>
+    </div>
+
+    <script>
+        const cursorHighlight = document.getElementById('cursor-highlight');
+        
+        document.addEventListener('mousemove', (e) => {
+            cursorHighlight.style.left = e.clientX + 'px';
+            cursorHighlight.style.top = e.clientY + 'px';
+        });
+
+        document.addEventListener('mouseenter', () => {
+            cursorHighlight.style.opacity = '1';
+        });
+
+        document.addEventListener('mouseleave', () => {
+            cursorHighlight.style.opacity = '0';
+        });
+    </script>
+</body>
+</html>

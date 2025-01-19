@@ -85,6 +85,12 @@ LOGIN_REDIRECT_URL = '/customs_app/agentes/'
 LOGIN_URL = 'login'
 LOGOUT_REDIRECT_URL = 'login'
 
+# Static files
+STATIC_URL = 'static/'
+STATICFILES_DIRS = [
+    BASE_DIR / "static",
+]
+
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 

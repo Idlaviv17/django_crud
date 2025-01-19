@@ -6,42 +6,11 @@
     <title>Manejador de Pedimentos</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
-    <style>
-        .cursor-highlight {
-            width: 400px;
-            height: 400px;
-            background: radial-gradient(circle at center, 
-                rgba(0, 0, 0, 0.03) 0%,
-                rgba(0, 0, 0, 0) 70%);
-            border-radius: 50%;
-            position: fixed;
-            pointer-events: none;
-            transform: translate(-50%, -50%);
-            z-index: 1;
-            transition: opacity 0.3s ease;
-        }
-
-        @keyframes pulse {
-            0%, 100% {
-                transform: scale(1);
-            }
-            50% {
-                transform: scale(1.02);
-            }
-        }
-
-        .nav-link.active::after {
-            content: '';
-            position: absolute;
-            inset: 0;
-            border-radius: 12px;
-            background: radial-gradient(circle, rgba(0, 0, 0, 0.15), transparent);
-            animation: pulse 2s infinite;
-        }
-    </style>    
+    {% load static %}
+    <link href="{% static 'css/global.css' %}" rel="stylesheet">
 </head>
 
-<body class="bg-gray-50 bg-[radial-gradient(#00000011_1px,transparent_1px)] [background-size:16px_16px] min-h-screen">
+<body>
     <div id="cursor-highlight" class="cursor-highlight"></div>
     
     <div class="min-h-screen p-4 relative">
