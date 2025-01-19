@@ -104,13 +104,6 @@
             </div>
 
             <div class="flex-1 bg-white/80 backdrop-blur-lg rounded-3xl p-6 border border-gray-200">
-                <div class="bg-white/80 backdrop-blur-lg text-gray-800 p-4 md:hidden flex justify-between items-center rounded-2xl mb-6 border border-gray-200">
-                    <h1 class="text-2xl font-bold">Sistema Aduanal</h1>
-                    <button id="sidebar-toggle" class="text-gray-800 focus:outline-none hover:bg-gray-100 p-2 rounded-xl transition duration-200">
-                        <i class="fas fa-bars text-xl"></i>
-                    </button>
-                </div>
-
                 <main class="container mx-auto">
                     {% if messages %}
                     <div class="messages mb-4">
@@ -130,22 +123,6 @@
     </div>
 
     <script>
-        const sidebarToggle = document.getElementById('sidebar-toggle');
-        const sidebar = document.getElementById('sidebar');
-        const pageContent = document.querySelector('main');
-
-        if (sidebarToggle && sidebar) {
-            sidebarToggle.addEventListener('click', () => {
-                sidebar.classList.toggle('-translate-x-full');
-            });
-
-            pageContent.addEventListener('click', () => {
-                if (window.innerWidth < 768) {
-                    sidebar.classList.add('-translate-x-full');
-                }
-            });
-        }
-
         const cursorHighlight = document.getElementById('cursor-highlight');
         
         document.addEventListener('mousemove', (e) => {
