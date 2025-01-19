@@ -21,10 +21,13 @@
                         {% if not has_claves %}
                             <li>No hay claves de pedimento registradas</li>
                         {% endif %}
+                        {% if not has_agentes %}
+                            <li>No hay agentes aduanales registrados</li>
+                        {% endif %}
                     </ul>
                 </div>
                 <div class="mt-4">
-                    <div class="flex space-x-3">
+                    <div class="flex flex-wrap gap-3">
                         {% if not has_aduanas %}
                             <a href="{% url 'aduana-create' %}" 
                                class="bg-yellow-800 text-white px-3 py-2 rounded-md text-sm font-medium hover:bg-yellow-700">
@@ -35,6 +38,12 @@
                             <a href="{% url 'clave-create' %}" 
                                class="bg-yellow-800 text-white px-3 py-2 rounded-md text-sm font-medium hover:bg-yellow-700">
                                 Agregar Clave
+                            </a>
+                        {% endif %}
+                        {% if not has_agentes %}
+                            <a href="{% url 'agente-create' %}" 
+                               class="bg-yellow-800 text-white px-3 py-2 rounded-md text-sm font-medium hover:bg-yellow-700">
+                                Agregar Agente
                             </a>
                         {% endif %}
                         <a href="{% url 'pedimento-list' %}" 

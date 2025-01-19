@@ -157,11 +157,13 @@ class PedimentoCreateView(LoginRequiredMixin, NavContextMixin, CreateView):
     def get(self, request, *args, **kwargs):
         has_aduanas = AduanaSeccion.objects.exists()
         has_claves = ClavePedimento.objects.exists()
+        has_agentes = AgenteAduanal.objects.exists()
 
-        if not has_aduanas or not has_claves:
+        if not has_aduanas or not has_claves or not has_agentes:
             return render(request, 'customs_app/pedimentos/alert.html', {
                 'has_aduanas': has_aduanas,
-                'has_claves': has_claves
+                'has_claves': has_claves,
+                'has_agentes': has_agentes
             })
         
         return super().get(request, *args, **kwargs)
