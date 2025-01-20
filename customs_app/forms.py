@@ -80,7 +80,7 @@ class PedimentoForm(forms.ModelForm):
     def clean_num_pedimento(self):
         num = self.cleaned_data.get('num_pedimento')
         if len(num) != 15:
-            raise ValidationError('El número de pedimento debe contener exactamente 15 caracteres. Formato requerido: PPPP-AAAAAAA-XXXX')
+            raise ValidationError('El número de pedimento debe contener exactamente 15 caracteres.')
         return num
 
     def clean(self):
