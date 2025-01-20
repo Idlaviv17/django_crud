@@ -19,6 +19,10 @@
                     <th class="text-left py-2 px-3">Patente</th>
                     <th class="text-left py-2 px-3">Nombre</th>
                     <th class="text-left py-2 px-3">RFC</th>
+                    <th class="text-left py-2 px-3">CURP</th>
+                    <th class="text-left py-2 px-3">Razón Social</th>
+                    <th class="text-left py-2 px-3">Dirección</th>
+                    <th class="text-left py-2 px-3">Serie</th>
                     <th class="text-right py-2 px-3">Acciones</th>
                 </tr>
             </thead>
@@ -28,6 +32,14 @@
                     <td class="py-2 px-3 border-r">{{ agente.patente }}</td>
                     <td class="py-2 px-3 border-r">{{ agente.nombre }}</td>
                     <td class="py-2 px-3 border-r">{{ agente.rfc }}</td>
+                    <td class="py-2 px-3 border-r">{{ agente.curp }}</td>
+                    <td class="py-2 px-3 border-r">{{ agente.razon_social }}</td>
+                    <td class="py-2 px-3 border-r">
+                        {{ agente.direccion1 }}
+                        {% if agente.direccion2 %}<br>{{ agente.direccion2 }}{% endif %}
+                        {% if agente.direccion3 %}<br>{{ agente.direccion3 }}{% endif %}
+                    </td>
+                    <td class="py-2 px-3 border-r">{{ agente.serie }}</td>
                     <td class="py-2 px-3 text-right">
                         <a href="{% url 'agente-update' agente.patente %}" 
                            class="text-gray-600 hover:text-black">Editar</a>
